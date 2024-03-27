@@ -13,7 +13,7 @@ async function getToken() {
     const { token, expiresIn, callDateTime, callId, APIVersion } = response.data;
     return { token, expiresIn, callDateTime, callId, APIVersion };
   } catch (error) {
-    console.error('Errore durante la richiesta del token:', error.message);
+    console.error('Error during the token request:', error.message);
     throw error;
   }
 }
