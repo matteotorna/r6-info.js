@@ -2,7 +2,7 @@ const axios = require('axios');
 
 async function getServiceSatus(token, callId = {}) {
   try {
-    let url = 'https://r6-api.vercel.app/api/operators';
+    let url = 'https://r6-api.vercel.app/api/serviceStatus';
 
     const response = await axios.get(url, {
       headers: {
