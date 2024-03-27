@@ -5,5 +5,6 @@ A simple wrapper for the Rainbow Six Siege API that allows you to easily retriev
 # Installation
 
 </div>
+
 ```sh
   npm install r6info.js
