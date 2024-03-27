@@ -61,9 +61,9 @@ async function getOperators(token, callId, { name, safename, realname, birthplac
 
     return response.data;
   } catch (error) {
-    console.error('Errore durante la richiesta degli operatori:', error.message);
+    console.error('Errore during operators request:', error.message);
     if (error.response && error.response.status === 401) {
-      throw new Error('Token non valido o scaduto');
+      throw new Error('Token expired or invalid');
     }
     throw error;
   }

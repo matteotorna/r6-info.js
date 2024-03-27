@@ -37,9 +37,9 @@ async function getMaps(token, callId, { name, location, releaseDate, playlists, 
 
     return response.data;
   } catch (error) {
-    console.error('Errore durante la richiesta delle mappe:', error.message);
+    console.error('Errore during maps request:', error.message);
     if (error.response && error.response.status === 401) {
-      throw new Error('Token non valido o scaduto');
+      throw new Error('Token expired or invalid');
     }
     throw error;
   }

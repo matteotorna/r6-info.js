@@ -31,9 +31,9 @@ async function getRanks(token, callId, { name, min_mmr, max_mmr, version } = {})
       });
       return response.data;
     } catch (error) {
-      console.error('Errore durante la richiesta dei ranghi:', error.message);
+      console.error('Errore during ranks request:', error.message);
       if (error.response && error.response.status === 401) {
-        throw new Error('Token non valido o scaduto');
+        throw new Error('Token expired or invalid');
       }
       throw error;
     }
