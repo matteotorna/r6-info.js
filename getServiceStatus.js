@@ -24,4 +24,4 @@ async function getServiceSatus(token, callId = {}) {
   }
 }
 
-module.exports = getOperators;
+module.exports = getServiceSatus;

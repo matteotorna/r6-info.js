@@ -3,6 +3,7 @@ const getRanks = require('./getRanks');
 const getMaps = require('./getMaps');
 const getSeasons = require('./getSeasons');
 const getOperators = require('./getOperators');
+const getServiceSatus = require('./getServiceStatus');
 
 async function main() {
   try {
@@ -19,6 +20,9 @@ async function main() {
     
     const seasonsData = await getSeasons(token, callId, { name: 'Black Ice' });
     console.log(seasonsData);
+
+    const servicesData = await getServiceSatus(token, callId);
+    console.log(servicesData);
   } catch (error) {
     console.error('Errore durante le richieste:', error.message);
   }
