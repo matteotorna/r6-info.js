@@ -16,6 +16,7 @@ A simple wrapper for the Rainbow Six Siege API that allows you to easily retriev
 
 </div>
 
+<div>
 
 Before making requests to the API, you need to obtain an access token. You can do this using the getToken() function:
 
@@ -36,3 +37,5 @@ Before making requests to the API, you need to obtain an access token. You can d
   }
   
   main();
+
+</div>
