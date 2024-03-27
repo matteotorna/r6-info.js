@@ -20,17 +20,17 @@ Before making requests to the API, you need to obtain an access token. You can d
 ```sh
   const { getToken } = require('r6info.js');
 
-async function main() {
-  try {
-    const { token, expiresIn, callDateTime, callId, APIVersion } = await getToken();
-    console.log('Token:', token);
-    console.log('Expires In:', expiresIn);
-    console.log('Call Date Time:', callDateTime);
-    console.log('Call ID:', callId);
-    console.log('API Version:', APIVersion);
-  } catch (error) {
-    console.error('Error during token request:', error.message);
+  async function main() {
+    try {
+      const { token, expiresIn, callDateTime, callId, APIVersion } = await getToken();
+      console.log('Token:', token);
+      console.log('Expires In:', expiresIn);
+      console.log('Call Date Time:', callDateTime);
+      console.log('Call ID:', callId);
+      console.log('API Version:', APIVersion);
+    } catch (error) {
+      console.error('Error during token request:', error.message);
+    }
   }
-}
-
-main();
+  
+  main();
