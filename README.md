@@ -9,11 +9,13 @@ A simple wrapper for the Rainbow Six Siege API that allows you to easily retriev
 ```sh
   npm install r6info.js
 
+
 <div align="left">
   
 # Getting an Access Token
 
 </div>
+
 
 Before making requests to the API, you need to obtain an access token. You can do this using the getToken() function:
 
