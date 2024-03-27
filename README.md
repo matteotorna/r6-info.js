@@ -33,7 +33,7 @@ main();
 
 ## Getting Rank Information
 
-To retrieve information about ranks, use the getRanks() function:
+To retrieve information about ranks, use the `getRanks()` function:
 
 ```javascript
 const { getToken, getRanks } = require('r6info.js');
@@ -68,7 +68,7 @@ main();
 
 ## Getting Service Status
 
-To retrieve the service status, use the getServiceSatus() function:
+To retrieve the service status, use the `getServiceSatus()` function:
 
 ```javascript
 const { getToken, getServiceSatus } = require('r6info.js');
@@ -133,7 +133,7 @@ main();
 
 ## Getting Operator Information
 
-To retrieve information about operators, use the getOperators() function:
+To retrieve information about operators, use the `getOperators()` function:
 
 ```javascript
 const { getToken, getOperators } = require('r6info.js');
