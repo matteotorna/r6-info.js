@@ -33,7 +33,16 @@ main();
 
 ## Getting Rank Information
 
-To retrieve information about ranks, use the `getRanks()` function:
+The `getRanks()` function supports retrieving rank information across different versions of the game's ranking system, from v1 to v6. This flexibility allows users to query rank data that aligns with specific game seasons or ranking system updates. Here are examples demonstrating how to use the `getRanks()` function for each version, including filtering options for `min_mmr` and `max_mmr`.
+
+`v1: Until Y1S3 | #3 | Skull Rain`
+`v2: Y1S4 | #4 | Red Crow`
+`v3: Y2S1 - Y4S2 | #5 - #14 | Velvet Shell - Phantom Sight`
+`v4: Y4S3 - Y6S2 | #15 - #22 | Ember Rise - North Star`
+`v5: Y6S3 - Y7S3 | #23 - #27 | Crystal Guard - Brutal Swarm`
+`V6: Y7S4+ | #28+ | Solar Raid+ (Ranked 2.0)`
+
+### Version 1 (v1)
 
 ```javascript
 const { getToken, getRanks } = require('r6info.js');
@@ -42,21 +51,11 @@ async function main() {
   try {
     const { token, callId } = await getToken();
     
-    // Get all ranks
-    const ranks = await getRanks(token, callId);
-    console.log('All Ranks:', ranks);
-    
-    // Filter ranks by name
-    const filteredRanksByName = await getRanks(token, callId, { name: 'Gold 3', version: 'v6' });
-    console.log('Filtered Ranks by Name:', filteredRanksByName);
-    
-    // Filter ranks by minimum MMR
-    const filteredRanksByMinMMR = await getRanks(token, callId, { min_mmr: 3000, version: 'v6' });
-    console.log('Filtered Ranks by Minimum MMR:', filteredRanksByMinMMR);
-    
-    // Filter ranks by maximum MMR
-    const filteredRanksByMaxMMR = await getRanks(token, callId, { max_mmr: 3500, version: 'v6' });
-    console.log('Filtered Ranks by Maximum MMR:', filteredRanksByMaxMMR);
+    const ranksV1 = await getRanks(token, callId, { version: 'v1' });
+    console.log('All Ranks for Version v1:', ranksV1);
+
+    const filteredRanksV1 = await getRanks(token, callId, { min_mmr: 2000, max_mmr: 2500, version: 'v1' });
+    console.log('Filtered Ranks for Version v1:', filteredRanksV1);
     
   } catch (error) {
     console.error('Error during ranks request:', error.message);
