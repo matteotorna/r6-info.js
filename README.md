@@ -36,10 +36,15 @@ main();
 The `getRanks()` function supports retrieving rank information across different versions of the game's ranking system, from v1 to v6. This flexibility allows users to query rank data that aligns with specific game seasons or ranking system updates. Here are examples demonstrating how to use the `getRanks()` function for each version, including filtering options for `min_mmr` and `max_mmr`.
 
 `v1: Until Y1S3 | #3 | Skull Rain`
+
 `v2: Y1S4 | #4 | Red Crow`
+
 `v3: Y2S1 - Y4S2 | #5 - #14 | Velvet Shell - Phantom Sight`
+
 `v4: Y4S3 - Y6S2 | #15 - #22 | Ember Rise - North Star`
+
 `v5: Y6S3 - Y7S3 | #23 - #27 | Crystal Guard - Brutal Swarm`
+
 `V6: Y7S4+ | #28+ | Solar Raid+ (Ranked 2.0)`
 
 ### Version 1 (v1)
