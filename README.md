@@ -6,6 +6,10 @@ A simple wrapper for the Rainbow Six Siege API that allows you to easily retriev
 
 ```sh
 npm install r6info.js
+
+or
+
+npm i r6-info.js
 ```
 
 ## Getting an Access Token
