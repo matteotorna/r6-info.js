@@ -70,6 +70,122 @@ async function main() {
 main();
 ```
 
+### Version 2 (v2)
+
+```javascript
+const { getToken, getRanks } = require('r6info.js');
+
+async function main() {
+  try {
+     const { token, callId } = await getToken();
+    
+     const ranksV2 = await getRanks(token, callId, { version: 'v2' });
+     console.log('All Ranks for Version v2:', ranksV2);
+
+     const filteredRanksV2 = await getRanks(token, callId, { min_mmr: 2600, max_mmr: 3100, version: 'v2' });
+     console.log('Filtered Ranks for Version v2:', filteredRanksV2);
+ 
+  } catch (error) {
+    console.error('Error during ranks request:', error.message);
+  }
+}
+
+main();
+```
+
+### Version 3 (v3)
+
+```javascript
+const { getToken, getRanks } = require('r6info.js');
+
+async function main() {
+  try {
+     const { token, callId } = await getToken();
+    
+     const ranksV3 = await getRanks(token, callId, { version: 'v3' });
+     console.log('All Ranks for Version v3:', ranksV3);
+
+     const filteredRanksV3 = await getRanks(token, callId, { min_mmr: 3200, max_mmr: 3600, version: 'v3' });
+     console.log('Filtered Ranks for Version v3:', filteredRanksV3);
+ 
+  } catch (error) {
+    console.error('Error during ranks request:', error.message);
+  }
+}
+
+main();
+```
+
+### Version 4 (v4)
+
+```javascript
+const { getToken, getRanks } = require('r6info.js');
+
+async function main() {
+  try {
+     const { token, callId } = await getToken();
+    
+     const ranksV4 = await getRanks(token, callId, { version: 'v4' });
+     console.log('All Ranks for Version v4:', ranksV4);
+
+     const filteredRanksV4 = await getRanks(token, callId, { min_mmr: 3700, max_mmr: 4100, version: 'v4' });
+     console.log('Filtered Ranks for Version v4:', filteredRanksV4);
+ 
+  } catch (error) {
+    console.error('Error during ranks request:', error.message);
+  }
+}
+
+main();
+```
+
+### Version 5 (v5)
+
+```javascript
+const { getToken, getRanks } = require('r6info.js');
+
+async function main() {
+  try {
+     const { token, callId } = await getToken();
+    
+     const ranksV5 = await getRanks(token, callId, { version: 'v5' });
+     console.log('All Ranks for Version v5:', ranksV5);
+
+     const filteredRanksV5 = await getRanks(token, callId, { min_mmr: 4200, max_mmr: 4600, version: 'v5' });
+     console.log('Filtered Ranks for Version v5:', filteredRanksV5);
+ 
+  } catch (error) {
+    console.error('Error during ranks request:', error.message);
+  }
+}
+
+main();
+```
+
+
+### Version 6 (v6)
+
+```javascript
+const { getToken, getRanks } = require('r6info.js');
+
+async function main() {
+  try {
+     const { token, callId } = await getToken();
+    
+    const ranksV6 = await getRanks(token, callId, { version: 'v6' });
+     console.log('All Ranks for Version v6:', ranksV6);
+
+     const filteredRanksV6 = await getRanks(token, callId, { min_mmr: 4700, max_mmr: 5000, version: 'v6' });
+     console.log('Filtered Ranks for Version v6:', filteredRanksV6);
+ 
+  } catch (error) {
+    console.error('Error during ranks request:', error.message);
+  }
+}
+
+main();
+```
+
 ## Getting Service Status
 
 To retrieve the service status, use the `getServiceSatus()` function:
