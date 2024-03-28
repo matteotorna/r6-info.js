@@ -337,4 +337,4 @@ The package functions throw an exception if an error occurs during API requests.
 If the access token has expired or is invalid, an exception will be thrown with the message "Token expired or invalid". In this case, you need to obtain a new token using the getToken() function.
 
 ## License
-This package is released under the MIT License.
+This package is fan made, so it has been created for only informational purposes
