@@ -7,6 +7,9 @@ A simple wrapper for the Rainbow Six Siege API that allows you to easily retriev
 ```sh
 npm install r6info.js
 ```
+```sh
+npm i r6-info.js
+```
 
 ## Getting an Access Token
 
@@ -33,7 +36,21 @@ main();
 
 ## Getting Rank Information
 
-To retrieve information about ranks, use the `getRanks()` function:
+The `getRanks()` function supports retrieving rank information across different versions of the game's ranking system, from v1 to v6. This flexibility allows users to query rank data that aligns with specific game seasons or ranking system updates. Here are examples demonstrating how to use the `getRanks()` function for each version, including filtering options for `min_mmr` and `max_mmr`.
+
+`v1: Until Y1S3 | #3 | Skull Rain`
+
+`v2: Y1S4 | #4 | Red Crow`
+
+`v3: Y2S1 - Y4S2 | #5 - #14 | Velvet Shell - Phantom Sight`
+
+`v4: Y4S3 - Y6S2 | #15 - #22 | Ember Rise - North Star`
+
+`v5: Y6S3 - Y7S3 | #23 - #27 | Crystal Guard - Brutal Swarm`
+
+`V6: Y7S4+ | #28+ | Solar Raid+ (Ranked 2.0)`
+
+### Version 1 (v1)
 
 ```javascript
 const { getToken, getRanks } = require('r6info.js');
@@ -42,22 +59,128 @@ async function main() {
   try {
     const { token, callId } = await getToken();
     
-    // Get all ranks
-    const ranks = await getRanks(token, callId);
-    console.log('All Ranks:', ranks);
+    const ranksV1 = await getRanks(token, callId, { version: 'v1' });
+    console.log('All Ranks for Version v1:', ranksV1);
+
+    const filteredRanksV1 = await getRanks(token, callId, { min_mmr: 2000, max_mmr: 2500, version: 'v1' });
+    console.log('Filtered Ranks for Version v1:', filteredRanksV1);
     
-    // Filter ranks by name
-    const filteredRanksByName = await getRanks(token, callId, { name: 'Gold 3', version: 'v6' });
-    console.log('Filtered Ranks by Name:', filteredRanksByName);
+  } catch (error) {
+    console.error('Error during ranks request:', error.message);
+  }
+}
+
+main();
+```
+
+### Version 2 (v2)
+
+```javascript
+const { getToken, getRanks } = require('r6info.js');
+
+async function main() {
+  try {
+     const { token, callId } = await getToken();
     
-    // Filter ranks by minimum MMR
-    const filteredRanksByMinMMR = await getRanks(token, callId, { min_mmr: 3000, version: 'v6' });
-    console.log('Filtered Ranks by Minimum MMR:', filteredRanksByMinMMR);
+     const ranksV2 = await getRanks(token, callId, { version: 'v2' });
+     console.log('All Ranks for Version v2:', ranksV2);
+
+     const filteredRanksV2 = await getRanks(token, callId, { min_mmr: 2600, max_mmr: 3100, version: 'v2' });
+     console.log('Filtered Ranks for Version v2:', filteredRanksV2);
+ 
+  } catch (error) {
+    console.error('Error during ranks request:', error.message);
+  }
+}
+
+main();
+```
+
+### Version 3 (v3)
+
+```javascript
+const { getToken, getRanks } = require('r6info.js');
+
+async function main() {
+  try {
+     const { token, callId } = await getToken();
     
-    // Filter ranks by maximum MMR
-    const filteredRanksByMaxMMR = await getRanks(token, callId, { max_mmr: 3500, version: 'v6' });
-    console.log('Filtered Ranks by Maximum MMR:', filteredRanksByMaxMMR);
+     const ranksV3 = await getRanks(token, callId, { version: 'v3' });
+     console.log('All Ranks for Version v3:', ranksV3);
+
+     const filteredRanksV3 = await getRanks(token, callId, { min_mmr: 3200, max_mmr: 3600, version: 'v3' });
+     console.log('Filtered Ranks for Version v3:', filteredRanksV3);
+ 
+  } catch (error) {
+    console.error('Error during ranks request:', error.message);
+  }
+}
+
+main();
+```
+
+### Version 4 (v4)
+
+```javascript
+const { getToken, getRanks } = require('r6info.js');
+
+async function main() {
+  try {
+     const { token, callId } = await getToken();
     
+     const ranksV4 = await getRanks(token, callId, { version: 'v4' });
+     console.log('All Ranks for Version v4:', ranksV4);
+
+     const filteredRanksV4 = await getRanks(token, callId, { min_mmr: 3700, max_mmr: 4100, version: 'v4' });
+     console.log('Filtered Ranks for Version v4:', filteredRanksV4);
+ 
+  } catch (error) {
+    console.error('Error during ranks request:', error.message);
+  }
+}
+
+main();
+```
+
+### Version 5 (v5)
+
+```javascript
+const { getToken, getRanks } = require('r6info.js');
+
+async function main() {
+  try {
+     const { token, callId } = await getToken();
+    
+     const ranksV5 = await getRanks(token, callId, { version: 'v5' });
+     console.log('All Ranks for Version v5:', ranksV5);
+
+     const filteredRanksV5 = await getRanks(token, callId, { min_mmr: 4200, max_mmr: 4600, version: 'v5' });
+     console.log('Filtered Ranks for Version v5:', filteredRanksV5);
+ 
+  } catch (error) {
+    console.error('Error during ranks request:', error.message);
+  }
+}
+
+main();
+```
+
+
+### Version 6 (v6)
+
+```javascript
+const { getToken, getRanks } = require('r6info.js');
+
+async function main() {
+  try {
+     const { token, callId } = await getToken();
+    
+    const ranksV6 = await getRanks(token, callId, { version: 'v6' });
+     console.log('All Ranks for Version v6:', ranksV6);
+
+     const filteredRanksV6 = await getRanks(token, callId, { min_mmr: 4700, max_mmr: 5000, version: 'v6' });
+     console.log('Filtered Ranks for Version v6:', filteredRanksV6);
+ 
   } catch (error) {
     console.error('Error during ranks request:', error.message);
   }
@@ -213,4 +336,4 @@ The package functions throw an exception if an error occurs during API requests.
 If the access token has expired or is invalid, an exception will be thrown with the message "Token expired or invalid". In this case, you need to obtain a new token using the getToken() function.
 
 ## License
-This package is released under the MIT License.
+This package is fan made, so it has been created for only informational purposes
