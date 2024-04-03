@@ -1,6 +1,6 @@
 import { Seasons } from "../interfaces/seasons";
 import axiosInstance from "../axiosInstance/axiosInstance";
-import tokenManager from "../dist/tokenManager";
+import tokenManager from "../token/tokenManager";
 
 async function getSeasons(callId: string, params: Seasons = {}): Promise<any> {
     if (!tokenManager.isTokenValid()) {

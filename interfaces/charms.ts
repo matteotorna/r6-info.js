@@ -5,4 +5,5 @@ export interface Charms {
     availability?: string;
     bundle?: string;
     seasons?: string;
+    [key: string]: string | undefined;
 }

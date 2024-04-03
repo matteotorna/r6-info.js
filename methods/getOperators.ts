@@ -1,6 +1,6 @@
 import { Operators } from './../interfaces/operators';
 import axiosInstance from "../axiosInstance/axiosInstance";
-import tokenManager from "../dist/tokenManager";
+import tokenManager from "../token/tokenManager";
 
 async function getOperators(callId: string, params: Operators = {}): Promise<any> {
     if (!tokenManager.isTokenValid()) {

@@ -1,6 +1,6 @@
 import { Attachment } from './../interfaces/attachment';
 import axiosInstance from "../axiosInstance/axiosInstance";
-import tokenManager from "../dist/tokenManager";
+import tokenManager from "../token/tokenManager";
 
 async function getAttachment(callId: string, params: Attachment = {}): Promise<any> {
     if (!tokenManager.isTokenValid()) {

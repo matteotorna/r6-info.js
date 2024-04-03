@@ -1,6 +1,6 @@
 import axiosInstance from "../axiosInstance/axiosInstance";
 import { Maps } from "../interfaces/maps";
-import tokenManager from "../dist/tokenManager";
+import tokenManager from "../token/tokenManager";
 
 async function getMaps(callId: string, params: Maps = {}): Promise<any> {
     if (!tokenManager.isTokenValid()) {

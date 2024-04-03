@@ -14,5 +14,4 @@ export interface Operators {
     side?: string;
     icon_url?: string;
     [key: string]: string | number | string[] | undefined;
-    
 }

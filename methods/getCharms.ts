@@ -1,6 +1,6 @@
 import { Charms } from "../interfaces/charms";
 import axiosInstance from "../axiosInstance/axiosInstance";
-import tokenManager from "../dist/tokenManager";
+import tokenManager from "../token/tokenManager";
 
 async function getCharms(callId: string, params: Charms = {}): Promise<any> {
     if (!tokenManager.isTokenValid()) {

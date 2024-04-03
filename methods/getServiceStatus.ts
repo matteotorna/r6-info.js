@@ -1,6 +1,6 @@
 import { ServiceStatusResponse } from './../interfaces/serviceStatus';
 import axiosInstance from "../axiosInstance/axiosInstance";
-import tokenManager from "../dist/tokenManager";
+import tokenManager from "../token/tokenManager";
 
 async function getServiceStatus(callId: string): Promise<ServiceStatusResponse> {
     if (!tokenManager.isTokenValid()) {

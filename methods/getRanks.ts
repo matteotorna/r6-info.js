@@ -1,6 +1,6 @@
 import { Ranks } from "../interfaces/ranks";
 import axiosInstance from "../axiosInstance/axiosInstance";
-import tokenManager from "../dist/tokenManager";
+import tokenManager from "../token/tokenManager";
 
 async function getRanks(callId: string,  version: 'v1' | 'v2' | 'v3' | 'v4' | 'v5' | 'v6', params: Ranks): Promise<any> {
     if (!tokenManager.isTokenValid()) {
@@ -10,12 +10,12 @@ async function getRanks(callId: string,  version: 'v1' | 'v2' | 'v3' | 'v4' | 'v
     const token = tokenManager.getToken();
     let url = '/ranks';
     const urlParams = new URLSearchParams();
-    const combinedParams = { version, ...params };
+    urlParams.append('version', version);
 
-    Object.keys(combinedParams).forEach(key => {
-        const value = combinedParams[key];
+    Object.keys(params).forEach(key => {
+        const value = params[key];
         if (value !== undefined) {
-            urlParams.append(key, value.toString());
+            urlParams.append(key, Array.isArray(value) ? value.join(',') : value.toString());
         }
     });
 

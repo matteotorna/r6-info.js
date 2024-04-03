@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+      "target": "es6", 
+      "module": "commonjs", 
+      "outDir": "./dist", 
+      "strict": true, 
+      "esModuleInterop": true, 
+      "declaration": true, 
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true 
+    },
+    "include": [
+        "index.ts",
+        "axiosInstance/*",
+        "interfaces/*",
+        "methods/*",
+        "token/*"
+      ],      
+    "exclude": ["node_modules", "dist"] 
+  }
+  

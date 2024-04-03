@@ -1,7 +1,7 @@
-export interface Attachment {
+export interface Charms {
     name?: string;
-    style?: string;
-    rarirty?: string;
+    collections?: string;
+    rarity?: string;
     availability?: string;
     bundle?: string;
     seasons?: string;
