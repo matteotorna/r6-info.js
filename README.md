@@ -512,6 +512,64 @@ Filtering seasons by code using the `code` parameter.
 Filtering seasons by start date using the `startDate` parameter.
 These filtering options allow you to retrieve specific seasons based on different criteria. You can use them individually or combine them to get the desired subset of seasons.
 
+## Getting Attachment Information
+
+The `getAttachment()` function allows you to retrieve information about the attachments available in Rainbow Six Siege. You can get a list of all attachments or filter the attachments based on specific criteria. Here's an example of how to use the `getAttachment()` function:
+
+```javascript
+const r6Info = require('r6info.js');
+
+async function main() {
+  try {
+    await r6Info.tokenManager.generateToken();
+
+    // Get all attachments
+    const attachments = await r6Info.getAttachment();
+    console.log('All attachments:', attachments);
+    
+    // Filter attachments by name
+    const filteredAttachmentsByName = await r6Info.getAttachment({ name: 'Red Dot Sight' });
+    console.log('Attachments filtered by name:', filteredAttachmentsByName);
+    
+    // Filter attachments by style
+    const filteredAttachmentsByStyle = await r6Info.getAttachment({ style: 'colour' });
+    console.log('Attachments filtered by style:', filteredAttachmentsByStyle);
+    
+    // Filter attachments by rarity
+    const filteredAttachmentsByRarity = await r6Info.getAttachment({ rarity: 'common' });
+    console.log('Attachments filtered by rarity:', filteredAttachmentsByRarity);
+    
+    // Filter attachments by availability
+    const filteredAttachmentsByAvailability = await r6Info.getAttachment({ availability: 'removed' });
+    console.log('Attachments filtered by availability:', filteredAttachmentsByAvailability);
+    
+    // Filter attachments by bundle
+    const filteredAttachmentsByBundle = await r6Info.getAttachment({ bundle: '"Crimson Heist Battlepass"' });
+    console.log('Attachments filtered by bundle:', filteredAttachmentsByBundle);
+    
+    // Filter attachments by season
+    const filteredAttachmentsBySeason = await r6Info.getAttachment({ season: '"North Star"' });
+    console.log('Attachments filtered by season:', filteredAttachmentsBySeason);
+    
+  } catch (error) {
+    console.error('Error while requesting attachments:', error.message);
+  }
+}
+
+main();
+```
+
+In this example, we first generate an access token using the `generateToken()` function. Then, we demonstrate various ways to use the `getAttachment()` function:
+
+Retrieving all attachments by calling `getAttachment()` without any parameters.
+Filtering attachments by name using the `name` parameter.
+Filtering attachments by style using the `style` parameter.
+Filtering attachments by rarity using the `rarity` parameter.
+Filtering attachments by availability using the `availability` parameter.
+Filtering attachments by bundle using the `bundle` parameter.
+Filtering attachments by season using the `season` parameter.
+These filtering options provide flexibility in retrieving specific subsets of attachments based on various criteria. You can use them individually or combine them to narrow down the results according to your needs.
+
 ## Error Handling
 The package functions throw an exception if an error occurs during API requests. Make sure to handle errors appropriately using try-catch blocks.
 
