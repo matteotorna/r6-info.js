@@ -5,7 +5,7 @@ import getOperators from "./methods/getOperators";
 import getRanks from "./methods/getRanks";
 import getSeasons from "./methods/getSeasons";
 import getServiceStatus from "./methods/getServiceStatus";
-import tokenManager from "./token/tokenManager";
+import { tokenApi } from "./token/tokenManager";
 
 const r6info = {
     getMaps,
@@ -15,7 +15,7 @@ const r6info = {
     getRanks,
     getSeasons,
     getServiceStatus,
-    tokenManager,
+    tokenManager: tokenApi,
 }
 
 export default r6info;

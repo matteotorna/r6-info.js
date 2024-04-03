@@ -1,13 +1,13 @@
 import { ServiceStatusResponse } from './../interfaces/serviceStatus';
 import axiosInstance from "../axiosInstance/axiosInstance";
-import tokenManager from "../token/tokenManager";
+import { tokenApi } from '../token/tokenManager';
 
 async function getServiceStatus(callId: string): Promise<ServiceStatusResponse> {
-    if (!tokenManager.isTokenValid()) {
-        await tokenManager.generateToken();
+    if (!tokenApi.isTokenValid()) {
+        await tokenApi.generateToken();
     }
 
-    const token = tokenManager.getToken();
+    const token = tokenApi.getToken();
     const url = '/servicestatus';
 
     const response = await axiosInstance.get<ServiceStatusResponse>(url, {

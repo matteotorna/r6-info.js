@@ -1,13 +1,13 @@
 import { Ranks } from "../interfaces/ranks";
 import axiosInstance from "../axiosInstance/axiosInstance";
-import tokenManager from "../token/tokenManager";
+import { tokenApi } from "../token/tokenManager";
 
 async function getRanks(callId: string,  version: 'v1' | 'v2' | 'v3' | 'v4' | 'v5' | 'v6', params: Ranks): Promise<any> {
-    if (!tokenManager.isTokenValid()) {
-        await tokenManager.generateToken();
+    if (!tokenApi.isTokenValid()) {
+        await tokenApi.generateToken();
     }
 
-    const token = tokenManager.getToken();
+    const token = tokenApi.getToken();
     let url = '/ranks';
     const urlParams = new URLSearchParams();
     urlParams.append('version', version);

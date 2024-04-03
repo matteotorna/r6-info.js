@@ -1,13 +1,13 @@
 import { Operators } from './../interfaces/operators';
 import axiosInstance from "../axiosInstance/axiosInstance";
-import tokenManager from "../token/tokenManager";
+import { tokenApi } from "../token/tokenManager";
 
 async function getOperators(callId: string, params: Operators = {}): Promise<any> {
-    if (!tokenManager.isTokenValid()) {
-        await tokenManager.generateToken();
+    if (!tokenApi.isTokenValid()) {
+        await tokenApi.generateToken();
     }
 
-    const token = tokenManager.getToken();
+    const token = tokenApi.getToken();
     let url = '/operators';
     const urlParams = new URLSearchParams();
 

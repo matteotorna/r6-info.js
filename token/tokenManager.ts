@@ -48,4 +48,11 @@ class TokenManager {
     }
 }
 
-export default new TokenManager();
+const tokenManager = new TokenManager();
+
+export const tokenApi = {
+    generateToken: () => tokenManager.generateToken(),
+    isTokenValid: () => tokenManager.isTokenValid(),
+    clearToken: () => tokenManager.clearToken(),
+    getToken: () => tokenManager.getToken(),
+};

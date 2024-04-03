@@ -1,13 +1,13 @@
 import { Charms } from "../interfaces/charms";
 import axiosInstance from "../axiosInstance/axiosInstance";
-import tokenManager from "../token/tokenManager";
+import { tokenApi } from "../token/tokenManager";
 
 async function getCharms(callId: string, params: Charms = {}): Promise<any> {
-    if (!tokenManager.isTokenValid()) {
-        await tokenManager.generateToken();
+    if (!tokenApi.isTokenValid()) {
+        await tokenApi.generateToken();
     }
 
-    const token = tokenManager.getToken();
+    const token = tokenApi.getToken();
     let url = '/charms';
     const urlParams = new URLSearchParams();
 

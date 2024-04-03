@@ -1,13 +1,13 @@
 import { Seasons } from "../interfaces/seasons";
 import axiosInstance from "../axiosInstance/axiosInstance";
-import tokenManager from "../token/tokenManager";
+import { tokenApi } from "../token/tokenManager";
 
 async function getSeasons(callId: string, params: Seasons = {}): Promise<any> {
-    if (!tokenManager.isTokenValid()) {
-        await tokenManager.generateToken();
+    if (!tokenApi.isTokenValid()) {
+        await tokenApi.generateToken();
     }
 
-    const token = tokenManager.getToken();
+    const token = tokenApi.getToken();
     let url = '/seasons';
     const urlParams = new URLSearchParams();
 
