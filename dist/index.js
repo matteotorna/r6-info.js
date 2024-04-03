@@ -10,6 +10,7 @@ const getOperators_1 = __importDefault(require("./methods/getOperators"));
 const getRanks_1 = __importDefault(require("./methods/getRanks"));
 const getSeasons_1 = __importDefault(require("./methods/getSeasons"));
 const getServiceStatus_1 = __importDefault(require("./methods/getServiceStatus"));
+const tokenManager_1 = require("./token/tokenManager");
 const r6info = {
     getMaps: getMaps_1.default,
     getAttachment: getAttachment_1.default,
@@ -18,5 +19,6 @@ const r6info = {
     getRanks: getRanks_1.default,
     getSeasons: getSeasons_1.default,
     getServiceStatus: getServiceStatus_1.default,
+    tokenManager: tokenManager_1.tokenApi,
 };
 exports.default = r6info;

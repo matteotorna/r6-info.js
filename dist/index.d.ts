@@ -13,5 +13,14 @@ declare const r6info: {
     getRanks: typeof getRanks;
     getSeasons: typeof getSeasons;
     getServiceStatus: typeof getServiceStatus;
+    tokenManager: {
+        generateToken: () => Promise<void>;
+        isTokenValid: () => boolean;
+        clearToken: () => void;
+        getToken: () => {
+            token: string;
+            callId: string;
+        };
+    };
 };
 export default r6info;

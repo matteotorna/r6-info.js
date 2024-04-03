@@ -13,13 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const axiosInstance_1 = __importDefault(require("../axiosInstance/axiosInstance"));
-const tokenManager_1 = __importDefault(require("../token/tokenManager"));
+const tokenManager_1 = require("../token/tokenManager");
 function getOperators(callId_1) {
     return __awaiter(this, arguments, void 0, function* (callId, params = {}) {
-        if (!tokenManager_1.default.isTokenValid()) {
-            yield tokenManager_1.default.generateToken();
+        if (!tokenManager_1.tokenApi.isTokenValid()) {
+            yield tokenManager_1.tokenApi.generateToken();
         }
-        const token = tokenManager_1.default.getToken();
+        const token = tokenManager_1.tokenApi.getToken();
         let url = '/operators';
         const urlParams = new URLSearchParams();
         Object.keys(params).forEach(key => {
