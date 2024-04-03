@@ -1,15 +1,22 @@
-const getToken = require('./getToken');
-const getMaps = require('./getMaps');
-const getOperators = require('./getOperators');
-const getRanks = require('./getRanks');
-const getSeasons = require('./getSeasons');
-const getServiceSatus = require('./getServiceStatus');
+const getMaps = require('./methods/getMaps');
+const getOperators = require('./methods/getOperators');
+const getRanks = require('./methods/getRanks');
+const getSeasons = require('./methods/getSeasons');
+const getServiceSatus = require('./methods/getServiceStatus');
+const tokenManager = require('./methods/tokenManager');
 
-module.exports = {
-  getToken,
+const r6Info = {
   getMaps,
   getOperators,
   getRanks,
   getSeasons,
-  getServiceSatus
+  getServiceSatus,
+  tokenManager: {
+    generateToken: tokenManager.generateToken,
+    isValidToken: tokenManager.isValidToken,
+    clearToken: tokenManager.clearToken,
+    getToken: tokenManager.getToken,
+  },
 };
+
+module.exports = r6Info;

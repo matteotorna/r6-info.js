@@ -1,6 +1,21 @@
-# r6info.js
-
-A simple wrapper for the Rainbow Six Siege API that allows you to easily retrieve information about maps, operators, ranks, and service status.
+<div align="center">
+  <h1>R6-INFO.js</h1>
+  <h3>A simple wrapper for the Rainbow Six Siege API that allows you to easily retrieve information about maps, operators, ranks, seasons, charms and service status.</h3>
+  <p>
+    <a href="https://github.com/matteotorna/r6-info.js/releases/latest"><img
+      src="https://img.shields.io/github/v/release/matteotorna/r6info.js?label=version"
+      alt="Version"
+    /></a>
+    <a href="https://github.com/matteotorna/r6-info.js/releases/latest"><img
+      src="https://img.shields.io/github/release-date/matteotorna/r6info.js?label=latest%20release"
+      alt="Latest release"
+    /></a>
+    <a href="https://www.npmjs.com/package/r6info.js"><img
+      src="https://img.shields.io/npm/dt/r6-info.js.svg"
+      alt="NPM downloads"
+    /></a>
+  </p>
+</div>
 
 ## Installation
 
@@ -13,26 +28,101 @@ npm i r6-info.js
 
 ## Getting an Access Token
 
-Before making requests to the API, you need to obtain an access token. You can do this using the `getToken()` function:
+The `Token Manager` is a crucial module in R6-INFO.js that handles the authentication process required to access the Rainbow Six Siege API. It provides functions for generating, validating, and clearing access tokens.
+
+### Generating a Token
+
+Before making any requests to the API, you need to generate an access token. The `generateToken()` function in the tokenManager module takes care of this for you. Here's an example of how to use it:
 
 ```javascript
-const { getToken } = require('r6info.js');
+const { tokenManager } = require('r6info.js');
 
 async function main() {
   try {
-    const { token, expiresIn, callDateTime, callId, APIVersion } = await getToken();
-    console.log('Token:', token);
-    console.log('Expires In:', expiresIn);
-    console.log('Call Date Time:', callDateTime);
-    console.log('Call ID:', callId);
-    console.log('API Version:', APIVersion);
+    await r6Info.tokenManager.generateToken();
+    console.log('Token generated successfully');
   } catch (error) {
-    console.error('Error during token request:', error.message);
+    console.error('Error while generating token:', error.message);
   }
 }
 
 main();
 ```
+
+This function sends a request to the API to obtain a new access token. If the request is successful, the token is stored internally and can be used for subsequent API requests. If an error occurs during the token generation process, it will be caught and logged to the console.
+
+### Getting the Current Token
+
+If you need to retrieve the current access token, you can use the `getToken()` function provided by the tokenManager module. Here's an example:
+
+```javascript
+const { tokenManager } = require('r6info.js');
+
+async function main() {
+  try {
+    await r6Info.tokenManager.generateToken();
+    const { token, callId } = r6Info.tokenManager.getToken();
+    console.log('Token:', token);
+    console.log('Call ID:', callId);
+  } catch (error) {
+    console.error('Error while getting token:', error.message);
+  }
+}
+
+main();
+```
+
+The `getToken()` function returns an object containing the current access token and the corresponding call ID. The call ID is a unique identifier associated with each API request and can be useful for debugging or tracking purposes.
+
+### Checking Token Validity
+
+To ensure that the access token is still valid before making an API request, you can use the `isValidToken()` function. It checks the expiration time of the token and returns a boolean indicating whether the token is still valid or not. Here's an example:
+
+```javascript
+const { tokenManager } = require('r6info.js');
+
+async function main() {
+  try {
+    await r6Info.tokenManager.generateToken();
+
+    if (r6Info.tokenManager.isValidToken()) {
+      console.log('Token is valid');
+    } else {
+      console.log('Token is expired or invalid');
+    }
+  } catch (error) {
+    console.error('Error while checking token validity:', error.message);
+  }
+}
+
+main();
+```
+
+If the token is valid, the function will return `true`, and you can proceed with making API requests. If the token is expired or invalid, you should generate a new token using the `generateToken()` function before attempting to make any requests.
+
+### Clearing the Token
+
+In some cases, you may want to manually clear the stored access token. The `clearToken()` function allows you to do just that. Here's an example:
+
+```javascript
+const { tokenManager } = require('r6info.js');
+
+async function main() {
+  try {
+    await r6Info.tokenManager.generateToken();
+    console.log('Token generated successfully');
+
+    r6Info.tokenManager.clearToken();
+    console.log('Token cleared successfully');
+  } catch (error) {
+    console.error('Error while clearing token:', error.message);
+  }
+}
+
+main();
+```
+
+After calling the `clearToken()` function, the stored access token will be removed, and you will need to generate a new token before making any further API requests.
 
 ## Getting Rank Information
 
@@ -53,66 +143,70 @@ The `getRanks()` function supports retrieving rank information across different 
 ### Version 1 (v1)
 
 ```javascript
-const { getToken, getRanks } = require('r6info.js');
+const r6Info = require('r6info.js');
 
 async function main() {
   try {
-    const { token, callId } = await getToken();
+    await r6Info.tokenManager.generateToken();
     
-    const ranksV1 = await getRanks(token, callId, { version: 'v1' });
-    console.log('All Ranks for Version v1:', ranksV1);
+    const ranksV1 = await r6Info.getRanks({ version: 'v1' });
+    console.log('All ranks for version v1:', ranksV1);
 
-    const filteredRanksV1 = await getRanks(token, callId, { min_mmr: 2000, max_mmr: 2500, version: 'v1' });
-    console.log('Filtered Ranks for Version v1:', filteredRanksV1);
+    const filteredRanksV1 = await r6Info.getRanks({ min_mmr: 2000, max_mmr: 2500, version: 'v1' });
+    console.log('Filtered ranks for version v1:', filteredRanksV1);
     
   } catch (error) {
-    console.error('Error during ranks request:', error.message);
+    console.error('Error while requesting ranks:', error.message);
   }
 }
 
 main();
 ```
+In this example, we first generate an access token using the `generateToken()` function. Then, we call the `getRanks()` function with the version parameter set to 'v1' to retrieve all ranks for version 1 of the ranking system. We also demonstrate filtering the ranks by specifying the min_mmr and max_mmr parameters to get ranks within a specific MMR range.
 
 ### Version 2 (v2)
 
 ```javascript
-const { getToken, getRanks } = require('r6info.js');
+const r6Info = require('r6info.js');
 
 async function main() {
   try {
-     const { token, callId } = await getToken();
+    await r6Info.tokenManager.generateToken();
     
-     const ranksV2 = await getRanks(token, callId, { version: 'v2' });
-     console.log('All Ranks for Version v2:', ranksV2);
+    const ranksV2 = await r6Info.getRanks({ version: 'v2' });
+    console.log('All ranks for version v2:', ranksV2);
 
-     const filteredRanksV2 = await getRanks(token, callId, { min_mmr: 2600, max_mmr: 3100, version: 'v2' });
-     console.log('Filtered Ranks for Version v2:', filteredRanksV2);
- 
+    const filteredRanksV2 = await r6Info.getRanks({ min_mmr: 2600, max_mmr: 3100, version: 'v2' });
+    console.log('Filtered ranks for version v2:', filteredRanksV2);
+    
   } catch (error) {
-    console.error('Error during ranks request:', error.message);
+    console.error('Error while requesting ranks:', error.message);
   }
 }
 
 main();
 ```
+Similar to version 1, this example retrieves all ranks for version 2 of the ranking system and demonstrates filtering the ranks based on MMR range.
+
+The examples for versions 3 to 6 follow the same pattern, with the only difference being the version parameter value and the specific MMR ranges used for filtering.
 
 ### Version 3 (v3)
 
 ```javascript
-const { getToken, getRanks } = require('r6info.js');
+const r6Info = require('r6info.js');
 
 async function main() {
   try {
-     const { token, callId } = await getToken();
+    await r6Info.tokenManager.generateToken();
     
-     const ranksV3 = await getRanks(token, callId, { version: 'v3' });
-     console.log('All Ranks for Version v3:', ranksV3);
+    const ranksV3 = await r6Info.getRanks({ version: 'v3' });
+    console.log('All ranks for version v3:', ranksV3);
 
-     const filteredRanksV3 = await getRanks(token, callId, { min_mmr: 3200, max_mmr: 3600, version: 'v3' });
-     console.log('Filtered Ranks for Version v3:', filteredRanksV3);
- 
+    const filteredRanksV3 = await r6Info.getRanks({ min_mmr: 3200, max_mmr: 3700, version: 'v3' });
+    console.log('Filtered ranks for version v3:', filteredRanksV3);
+    
   } catch (error) {
-    console.error('Error during ranks request:', error.message);
+    console.error('Error while requesting ranks:', error.message);
   }
 }
 
@@ -122,20 +216,20 @@ main();
 ### Version 4 (v4)
 
 ```javascript
-const { getToken, getRanks } = require('r6info.js');
+const r6Info = require('r6info.js');
 
 async function main() {
   try {
-     const { token, callId } = await getToken();
+    await r6Info.tokenManager.generateToken();
     
-     const ranksV4 = await getRanks(token, callId, { version: 'v4' });
-     console.log('All Ranks for Version v4:', ranksV4);
+    const ranksV4 = await r6Info.getRanks({ version: 'v4' });
+    console.log('All ranks for version v4:', ranksV4);
 
-     const filteredRanksV4 = await getRanks(token, callId, { min_mmr: 3700, max_mmr: 4100, version: 'v4' });
-     console.log('Filtered Ranks for Version v4:', filteredRanksV4);
- 
+    const filteredRanksV4 = await r6Info.getRanks({ min_mmr: 3800, max_mmr: 4300, version: 'v4' });
+    console.log('Filtered ranks for version v4:', filteredRanksV4);
+    
   } catch (error) {
-    console.error('Error during ranks request:', error.message);
+    console.error('Error while requesting ranks:', error.message);
   }
 }
 
@@ -145,20 +239,20 @@ main();
 ### Version 5 (v5)
 
 ```javascript
-const { getToken, getRanks } = require('r6info.js');
+const r6Info = require('r6info.js');
 
 async function main() {
   try {
-     const { token, callId } = await getToken();
+    await r6Info.tokenManager.generateToken();
     
-     const ranksV5 = await getRanks(token, callId, { version: 'v5' });
-     console.log('All Ranks for Version v5:', ranksV5);
+    const ranksV5 = await r6Info.getRanks({ version: 'v5' });
+    console.log('All ranks for version v5:', ranksV5);
 
-     const filteredRanksV5 = await getRanks(token, callId, { min_mmr: 4200, max_mmr: 4600, version: 'v5' });
-     console.log('Filtered Ranks for Version v5:', filteredRanksV5);
- 
+    const filteredRanksV5 = await r6Info.getRanks({ min_mmr: 4400, max_mmr: 4900, version: 'v5' });
+    console.log('Filtered ranks for version v5:', filteredRanksV5);
+    
   } catch (error) {
-    console.error('Error during ranks request:', error.message);
+    console.error('Error while requesting ranks:', error.message);
   }
 }
 
@@ -169,20 +263,20 @@ main();
 ### Version 6 (v6)
 
 ```javascript
-const { getToken, getRanks } = require('r6info.js');
+const r6Info = require('r6info.js');
 
 async function main() {
   try {
-     const { token, callId } = await getToken();
+    await r6Info.tokenManager.generateToken();
     
-    const ranksV6 = await getRanks(token, callId, { version: 'v6' });
-     console.log('All Ranks for Version v6:', ranksV6);
+    const ranksV6 = await r6Info.getRanks({ version: 'v6' });
+    console.log('All ranks for version v6:', ranksV6);
 
-     const filteredRanksV6 = await getRanks(token, callId, { min_mmr: 4700, max_mmr: 5000, version: 'v6' });
-     console.log('Filtered Ranks for Version v6:', filteredRanksV6);
- 
+    const filteredRanksV6 = await r6Info.getRanks({ min_mmr: 5000, max_mmr: 5500, version: 'v6' });
+    console.log('Filtered ranks for version v6:', filteredRanksV6);
+    
   } catch (error) {
-    console.error('Error during ranks request:', error.message);
+    console.error('Error while requesting ranks:', error.message);
   }
 }
 
@@ -191,21 +285,20 @@ main();
 
 ## Getting Service Status
 
-To retrieve the service status, use the `getServiceSatus()` function:
+The `getServiceStatus()` function allows you to retrieve the current status of the Rainbow Six Siege game servers. This information can be useful for monitoring the health and availability of the game service. Here's an example of how to use the `getServiceStatus()` function:
 
 ```javascript
-const { getToken, getServiceSatus } = require('r6info.js');
+const r6Info = require('r6info.js');
 
 async function main() {
   try {
-    const { token, callId } = await getToken();
-    
-    // Get service status
-    const serviceStatus = await getServiceSatus(token, callId);
-    console.log('Service Status:', serviceStatus);
+    await r6Info.tokenManager.generateToken();
+
+    const serviceStatus = await r6Info.getServiceStatus();
+    console.log('Service status:', serviceStatus);
     
   } catch (error) {
-    console.error('Error during service status request:', error.message);
+    console.error('Error while requesting service status:', error.message);
   }
 }
 
@@ -214,121 +307,210 @@ main();
 
 ## Getting Map Information
 
-To retrieve information about maps, use the `getMaps()` function:
+The `getMaps()` function allows you to retrieve information about the maps available in Rainbow Six Siege. You can get a list of all maps or filter the maps based on specific criteria. Here's an example of how to use the `getMaps()` function:
 
 ```javascript
-const { getToken, getMaps } = require('r6info.js');
+const r6Info = require('r6info.js');
 
 async function main() {
   try {
-    const { token, callId } = await getToken();
-    
+    await r6Info.tokenManager.generateToken();
+
     // Get all maps
-    const maps = await getMaps(token, callId);
-    console.log('All Maps:', maps);
+    const maps = await r6Info.getMaps();
+    console.log('All maps:', maps);
     
     // Filter maps by name
-    const filteredMapsByName = await getMaps(token, callId, { name: 'Bank' });
-    console.log('Filtered Maps by Name:', filteredMapsByName);
+    const filteredMapsByName = await r6Info.getMaps({ name: 'Bank' });
+    console.log('Maps filtered by name:', filteredMapsByName);
     
     // Filter maps by location
-    const filteredMapsByLocation = await getMaps(token, callId, { location: 'USA' });
-    console.log('Filtered Maps by Location:', filteredMapsByLocation);
+    const filteredMapsByLocation = await r6Info.getMaps({ location: 'USA' });
+    console.log('Maps filtered by location:', filteredMapsByLocation);
     
     // Filter maps by release date
-    const filteredMapsByReleaseDate = await getMaps(token, callId, { releaseDate: '2015-12-01' });
-    console.log('Filtered Maps by Release Date:', filteredMapsByReleaseDate);
+    const filteredMapsByReleaseDate = await r6Info.getMaps({ releaseDate: '2015-12-01' });
+    console.log('Maps filtered by release date:', filteredMapsByReleaseDate);
     
     // Filter maps by playlists
-    const filteredMapsByPlaylists = await getMaps(token, callId, { playlists: 'ranked' });
-    console.log('Filtered Maps by Playlists:', filteredMapsByPlaylists);
+    const filteredMapsByPlaylists = await r6Info.getMaps({ playlists: 'ranked' });
+    console.log('Maps filtered by playlists:', filteredMapsByPlaylists);
     
     // Filter maps by rework status
-    const filteredMapsByRework = await getMaps(token, callId, { mapReworked: true });
-    console.log('Filtered Maps by Rework Status:', filteredMapsByRework);
+    const filteredMapsByRework = await r6Info.getMaps({ mapReworked: true });
+    console.log('Maps filtered by rework status:', filteredMapsByRework);
+    
   } catch (error) {
-    console.error('Error during maps request:', error.message);
+    console.error('Error while requesting maps:', error.message);
   }
 }
 
 main();
 ```
+
+In this example, we first generate an access token using the `generateToken()` function. Then, we demonstrate various ways to use the getMaps() function:
+
+Retrieving all maps by calling `getMaps()` without any parameters.
+Filtering maps by name using the `name` parameter.
+Filtering maps by location using the `location` parameter.
+Filtering maps by release date using the `releaseDate` parameter.
+Filtering maps by playlists using the `playlists` parameter.
+Filtering maps by rework status using the `mapReworked` parameter.
+You can use these filtering options individually or combine them to retrieve specific subsets of maps based on your requirements.
 
 ## Getting Operator Information
 
-To retrieve information about operators, use the `getOperators()` function:
+The `getOperators()` function allows you to retrieve information about the operators available in Rainbow Six Siege. You can get a list of all operators or filter the operators based on specific criteria. Here's an example of how to use the `getOperators()` function:
 
 ```javascript
-const { getToken, getOperators } = require('r6info.js');
+const r6Info = require('r6info.js');
 
 async function main() {
   try {
-    const { token, callId } = await getToken();
-    
+    await r6Info.tokenManager.generateToken();
+
     // Get all operators
-    const operators = await getOperators(token, callId);
-    console.log('All Operators:', operators);
+    const operators = await r6Info.getOperators();
+    console.log('All operators:', operators);
     
     // Filter operators by name
-    const filteredOperatorsByName = await getOperators(token, callId, { name: 'Ash' });
-    console.log('Filtered Operators by Name:', filteredOperatorsByName);
+    const filteredOperatorsByName = await r6Info.getOperators({ name: 'Ash' });
+    console.log('Operators filtered by name:', filteredOperatorsByName);
     
     // Filter operators by safe name
-    const filteredOperatorsBySafeName = await getOperators(token, callId, { safename: 'recruit' });
-    console.log('Filtered Operators by Safe Name:', filteredOperatorsBySafeName);
+    const filteredOperatorsBySafeName = await r6Info.getOperators({ safename: 'recruit' });
+    console.log('Operators filtered by safe name:', filteredOperatorsBySafeName);
     
     // Filter operators by real name
-    const filteredOperatorsByRealName = await getOperators(token, callId, { realname: 'Eliza Cohen' });
-    console.log('Filtered Operators by Real Name:', filteredOperatorsByRealName);
+    const filteredOperatorsByRealName = await r6Info.getOperators({ realname: 'Eliza Cohen' });
+    console.log('Operators filtered by real name:', filteredOperatorsByRealName);
     
     // Filter operators by birthplace
-    const filteredOperatorsByBirthplace = await getOperators(token, callId, { birthplace: 'Jerusalem, Israel' });
-    console.log('Filtered Operators by Birthplace:', filteredOperatorsByBirthplace);
+    const filteredOperatorsByBirthplace = await r6Info.getOperators({ birthplace: 'Jerusalem, Israel' });
+    console.log('Operators filtered by birthplace:', filteredOperatorsByBirthplace);
     
     // Filter operators by age
-    const filteredOperatorsByAge = await getOperators(token, callId, { age: 33 });
-    console.log('Filtered Operators by Age:', filteredOperatorsByAge);
+    const filteredOperatorsByAge = await r6Info.getOperators({ age: 33 });
+    console.log('Operators filtered by age:', filteredOperatorsByAge);
     
     // Filter operators by date of birth
-    const filteredOperatorsByDateOfBirth = await getOperators(token, callId, { date_of_birth: '1984-12-24' });
-    console.log('Filtered Operators by Date of Birth:', filteredOperatorsByDateOfBirth);
+    const filteredOperatorsByDateOfBirth = await r6Info.getOperators({ date_of_birth: '1984-12-24' });
+    console.log('Operators filtered by date of birth:', filteredOperatorsByDateOfBirth);
     
     // Filter operators by season introduced
-    const filteredOperatorsBySeasonIntroduced = await getOperators(token, callId, { season_introduced: 'Y1S1' });
-    console.log('Filtered Operators by Season Introduced:', filteredOperatorsBySeasonIntroduced);
+    const filteredOperatorsBySeasonIntroduced = await r6Info.getOperators({ season_introduced: 'Y1S1' });
+    console.log('Operators filtered by season introduced:', filteredOperatorsBySeasonIntroduced);
     
     // Filter operators by health
-    const filteredOperatorsByHealth = await getOperators(token, callId, { health: 1 });
-    console.log('Filtered Operators by Health:', filteredOperatorsByHealth);
+    const filteredOperatorsByHealth = await r6Info.getOperators({ health: 1 });
+    console.log('Operators filtered by health:', filteredOperatorsByHealth);
     
     // Filter operators by speed
-    const filteredOperatorsBySpeed = await getOperators(token, callId, { speed: 3 });
-    console.log('Filtered Operators by Speed:', filteredOperatorsBySpeed);
-    
+    const filteredOperatorsBySpeed = await r6Info.getOperators({ speed: 3 });
+    console.log('Operators filtered by speed:', filteredOperatorsBySpeed);
+
     // Filter operators by unit
-    const filteredOperatorsByUnit = await getOperators(token, callId, { unit: 'FBI SWAT' });
-    console.log('Filtered Operators by Unit:', filteredOperatorsByUnit);
-    
+    const filteredOperatorsByUnit = await r6Info.getOperators({ unit: 'FBI SWAT' });
+    console.log('Operators filtered by unit:', filteredOperatorsByUnit);
+
     // Filter operators by country code
-    const filteredOperatorsByCountryCode = await getOperators(token, callId, { country_code: 'US' });
-    console.log('Filtered Operators by Country Code:', filteredOperatorsByCountryCode);
-    
+    const filteredOperatorsByCountryCode = await r6Info.getOperators({ country_code: 'US' });
+    console.log('Operators filtered by country code:', filteredOperatorsByCountryCode);
+
     // Filter operators by roles
-    const filteredOperatorsByRoles = await getOperators(token, callId, { roles: 'attacker' });
-    console.log('Filtered Operators by Roles:', filteredOperatorsByRoles);
-    
+    const filteredOperatorsByRoles = await r6Info.getOperators({ roles: 'attacker' });
+    console.log('Operators filtered by roles:', filteredOperatorsByRoles);
+
     // Filter operators by side
-    const filteredOperatorsBySide = await getOperators(token, callId, { side: 'attacker' });
-    console.log('Filtered Operators by Side:', filteredOperatorsBySide);
+    const filteredOperatorsBySide = await r6Info.getOperators({ side: 'attacker' });
+    console.log('Operators filtered by side:', filteredOperatorsBySide);
+    } catch (error) {
+    console.error('Error while requesting operators:', error.message);
+    }
+  }
+
+main();
+```
+In this example, we first generate an access token using the `generateToken()` function. Then, we demonstrate various ways to use the `getOperators()`function:
+
+1. Retrieving all operators by calling `getOperators()` without any parameters.
+2. Filtering operators by name using the `name` parameter.
+3. Filtering operators by safe name using the `safename` parameter.
+4. Filtering operators by real name using the `realname` parameter.
+5. Filtering operators by birthplace using the `birthplace` parameter.
+6. Filtering operators by age using the `age` parameter.
+7. Filtering operators by date of birth using the `date_of_birth` parameter.
+8. Filtering operators by season introduced using the `season_introduced` parameter.
+9. Filtering operators by health using the `health` parameter.
+10. Filtering operators by speed using the `speed` parameter.
+11. Filtering operators by unit using the `unit` parameter.
+12. Filtering operators by country code using the `country_code` parameter.
+13. Filtering operators by roles using the `roles` parameter.
+14. Filtering operators by side using the `side` parameter.
+
+These filtering options provide flexibility in retrieving specific subsets of operators based on various criteria. You can use them individually or combine them to narrow down the results according to your needs.
+
+## Getting Season Information
+
+The `getSeasons()` function allows you to retrieve information about the seasons in Rainbow Six Siege. You can get a list of all seasons or filter the seasons based on specific criteria. Here's an example of how to use the `getSeasons()` function:
+
+```javascript
+const r6Info = require('r6info.js');
+
+async function main() {
+  try {
+    await r6Info.tokenManager.generateToken();
+
+    // Get all seasons
+    const seasons = await r6Info.getSeasons();
+    console.log('All seasons:', seasons);
+
+    // Filter seasons by name
+    const filteredSeasonsByName = await r6Info.getSeasons({ name: 'Black Ice' });
+    console.log('Seasons filtered by name:', filteredSeasonsByName);
+
+    // Filter seasons by map
+    const filteredSeasonsByMap = await r6Info.getSeasons({ map: 'Yacht' });
+    console.log('Seasons filtered by map:', filteredSeasonsByMap);
+
+    // Filter seasons by operators
+    const filteredSeasonsByOperators = await r6Info.getSeasons({ operators: 'Buck, Frost' });
+    console.log('Seasons filtered by operators:', filteredSeasonsByOperators);
+
+    // Filter seasons by weapons
+    const filteredSeasonsByWeapons = await r6Info.getSeasons({ weapons: 'C8-SFW, Super 90' });
+    console.log('Seasons filtered by weapons:', filteredSeasonsByWeapons);
+
+    // Filter seasons by description
+    const filteredSeasonsByDescription = await r6Info.getSeasons({ description: 'Operation Black Ice brings a new map and two new operators to the game.' });
+    console.log('Seasons filtered by description:', filteredSeasonsByDescription);
+
+    // Filter seasons by code
+    const filteredSeasonsByCode = await r6Info.getSeasons({ code: 'Y1S1' });
+    console.log('Seasons filtered by code:', filteredSeasonsByCode);
+
+    // Filter seasons by start date
+    const filteredSeasonsByStartDate = await r6Info.getSeasons({ startDate: '2016-02-02' });
+    console.log('Seasons filtered by start date:', filteredSeasonsByStartDate);
     
   } catch (error) {
-    console.error('Error during operators request:', error.message);
+    console.error('Error while requesting seasons:', error.message);
   }
 }
 
 main();
 ```
+In this example, we first generate an access token using the `generateToken()` function. Then, we demonstrate various ways to use the `getSeasons()` function:
 
+Retrieving all seasons by calling `getSeasons()` without any parameters.
+Filtering seasons by name using the `name` parameter.
+Filtering seasons by map using the `map` parameter.
+Filtering seasons by operators using the `operators` parameter.
+Filtering seasons by weapons using the `weapons` parameter.
+Filtering seasons by description using the `description` parameter.
+Filtering seasons by code using the `code` parameter.
+Filtering seasons by start date using the `startDate` parameter.
+These filtering options allow you to retrieve specific seasons based on different criteria. You can use them individually or combine them to get the desired subset of seasons.
 
 ## Error Handling
 The package functions throw an exception if an error occurs during API requests. Make sure to handle errors appropriately using try-catch blocks.
