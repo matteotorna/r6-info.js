@@ -7,11 +7,11 @@ interface TokenResponse {
 }
 
 class TokenManager {
-    private token: string | null = null;
-    private expiry: number | null = null;
-    private callId: string | null = null;
+    private _token: string | null = null;
+    private _expiry: number | null = null;
+    private _callId: string | null = null;
 
-    async generateToken(): Promise<void> {
+    public async generateToken(): Promise<void> {
         try {
             const response = await axiosInstance.get<TokenResponse>('/token');
             const { token, expiresIn, callId } = response.data;
@@ -21,30 +21,30 @@ class TokenManager {
         }
     }
 
-    setToken(newToken: string, expiresIn: number, callId: string): void {
-        this.token = newToken;
-        this.expiry = Date.now() + expiresIn * 1000;
-        this.callId = callId;
+    private setToken(newToken: string, expiresIn: number, callId: string): void {
+        this._token = newToken;
+        this._expiry = Date.now() + expiresIn * 1000;
+        this._callId = callId;
     }
 
-    getToken(): { token: string; callId: string } {
-        if (!this.token || !this.expiry || Date.now() > this.expiry) {
+    public getToken(): { token: string; callId: string } {
+        if (!this._token || !this._expiry || Date.now() > this._expiry) {
             throw new Error("Token is expired or not set");
         }
-        if (!this.callId) {
+        if (!this._callId) {
             throw new Error("Call ID is not set");
         }
-        return { token: this.token, callId: this.callId };
+        return { token: this._token, callId: this._callId };
     }
 
-    isTokenValid(): boolean {
-        return !!(this.token && this.expiry && Date.now() < this.expiry && this.callId);
+    public isTokenValid(): boolean {
+        return !!(this._token && this._expiry && Date.now() < this._expiry && this._callId);
     }
 
-    clearToken(): void {
-        this.token = null;
-        this.expiry = null;
-        this.callId = null;
+    public clearToken(): void {
+        this._token = null;
+        this._expiry = null;
+        this._callId = null;
     }
 }
 
