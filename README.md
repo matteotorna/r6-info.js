@@ -1,19 +1,14 @@
-<div align="center">
-  <h1>R6-INFO.js</h1>
-  <h3>A simple wrapper for the Rainbow Six Siege API that allows you to easily retrieve information about maps, operators, ranks, seasons, charms and service status.</h3>
+
+## R6-INFO.js
+  A simple wrapper for the Rainbow Six Siege API that allows you to easily retrieve information about maps, operators, ranks, seasons, charms and service status.
+  <div align="center">
   <p>
-    <a href="https://github.com/matteotorna/r6-info.js/releases/latest"><img
-      src="https://img.shields.io/github/v/release/matteotorna/r6info.js?label=version"
-      alt="Version"
-    /></a>
-    <a href="https://github.com/matteotorna/r6-info.js/releases/latest"><img
-      src="https://img.shields.io/github/release-date/matteotorna/r6info.js?label=latest%20release"
-      alt="Latest release"
-    /></a>
-    <a href="https://www.npmjs.com/package/r6info.js"><img
-      src="https://img.shields.io/npm/dt/r6-info.js.svg"
-      alt="NPM downloads"
-    /></a>
+    <a href="https://github.com/matteotorna/r6-info.js/releases/latest">
+  <img src="https://img.shields.io/github/v/release/matteotorna/r6-info.js?style=for-the-badge" alt="GitHub release (latest SemVer)" /></a>
+    <a href="https://github.com/matteotorna/r6-info.js/releases/latest">
+    <img src="https://img.shields.io/github/release-date/matteotorna/r6-info.js?label=latest%20release&style=for-the-badge" alt="Latest release" /></a>
+   <a href="https://www.npmjs.com/package/r6-info.js"><img src="https://img.shields.io/npm/v/r6-info.js.svg?logo=npm&style=for-the-badge" alt="npm version" /></a>
+    <a href="https://www.npmjs.com/package/r6-info.js"><img src="https://img.shields.io/npm/dt/r6-info.js.svg?style=for-the-badge" alt="NPM downloads" /></a>
   </p>
 </div>
 
@@ -35,7 +30,7 @@ The `Token Manager` is a crucial module in R6-INFO.js that handles the authentic
 Before making any requests to the API, you need to generate an access token. The `generateToken()` function in the tokenManager module takes care of this for you. Here's an example of how to use it:
 
 ```javascript
-const { tokenManager } = require('r6info.js');
+const r6Info = require('r6-info.js');
 
 async function main() {
   try {
@@ -56,7 +51,7 @@ This function sends a request to the API to obtain a new access token. If the re
 If you need to retrieve the current access token, you can use the `getToken()` function provided by the tokenManager module. Here's an example:
 
 ```javascript
-const { tokenManager } = require('r6info.js');
+const r6Info = require('r6-info.js');
 
 async function main() {
   try {
@@ -79,7 +74,7 @@ The `getToken()` function returns an object containing the current access token 
 To ensure that the access token is still valid before making an API request, you can use the `isValidToken()` function. It checks the expiration time of the token and returns a boolean indicating whether the token is still valid or not. Here's an example:
 
 ```javascript
-const { tokenManager } = require('r6info.js');
+const r6Info = require('r6-info.js');
 
 async function main() {
   try {
@@ -105,7 +100,7 @@ If the token is valid, the function will return `true`, and you can proceed with
 In some cases, you may want to manually clear the stored access token. The `clearToken()` function allows you to do just that. Here's an example:
 
 ```javascript
-const { tokenManager } = require('r6info.js');
+const r6Info = require('r6-info.js');
 
 async function main() {
   try {
@@ -143,7 +138,7 @@ The `getRanks()` function supports retrieving rank information across different 
 ### Version 1 (v1)
 
 ```javascript
-const r6Info = require('r6info.js');
+const r6Info = require('r6-info.js');
 
 async function main() {
   try {
@@ -167,7 +162,7 @@ In this example, we first generate an access token using the `generateToken()` f
 ### Version 2 (v2)
 
 ```javascript
-const r6Info = require('r6info.js');
+const r6Info = require('r6-info.js');
 
 async function main() {
   try {
@@ -193,7 +188,7 @@ The examples for versions 3 to 6 follow the same pattern, with the only differen
 ### Version 3 (v3)
 
 ```javascript
-const r6Info = require('r6info.js');
+const r6Info = require('r6-info.js');
 
 async function main() {
   try {
@@ -216,7 +211,7 @@ main();
 ### Version 4 (v4)
 
 ```javascript
-const r6Info = require('r6info.js');
+const r6Info = require('r6-info.js');
 
 async function main() {
   try {
@@ -239,7 +234,7 @@ main();
 ### Version 5 (v5)
 
 ```javascript
-const r6Info = require('r6info.js');
+const r6Info = require('r6-info.js');
 
 async function main() {
   try {
@@ -263,7 +258,7 @@ main();
 ### Version 6 (v6)
 
 ```javascript
-const r6Info = require('r6info.js');
+const r6Info = require('r6-info.js');
 
 async function main() {
   try {
@@ -288,7 +283,7 @@ main();
 The `getServiceStatus()` function allows you to retrieve the current status of the Rainbow Six Siege game servers. This information can be useful for monitoring the health and availability of the game service. Here's an example of how to use the `getServiceStatus()` function:
 
 ```javascript
-const r6Info = require('r6info.js');
+const r6Info = require('r6-info.js');
 
 async function main() {
   try {
@@ -310,7 +305,7 @@ main();
 The `getMaps()` function allows you to retrieve information about the maps available in Rainbow Six Siege. You can get a list of all maps or filter the maps based on specific criteria. Here's an example of how to use the `getMaps()` function:
 
 ```javascript
-const r6Info = require('r6info.js');
+const r6Info = require('r6-info.js');
 
 async function main() {
   try {
@@ -363,7 +358,7 @@ You can use these filtering options individually or combine them to retrieve spe
 The `getOperators()` function allows you to retrieve information about the operators available in Rainbow Six Siege. You can get a list of all operators or filter the operators based on specific criteria. Here's an example of how to use the `getOperators()` function:
 
 ```javascript
-const r6Info = require('r6info.js');
+const r6Info = require('r6-info.js');
 
 async function main() {
   try {
@@ -455,7 +450,7 @@ These filtering options provide flexibility in retrieving specific subsets of op
 The `getSeasons()` function allows you to retrieve information about the seasons in Rainbow Six Siege. You can get a list of all seasons or filter the seasons based on specific criteria. Here's an example of how to use the `getSeasons()` function:
 
 ```javascript
-const r6Info = require('r6info.js');
+const r6Info = require('r6-info.js');
 
 async function main() {
   try {
@@ -517,7 +512,7 @@ These filtering options allow you to retrieve specific seasons based on differen
 The `getAttachment()` function allows you to retrieve information about the attachments available in Rainbow Six Siege. You can get a list of all attachments or filter the attachments based on specific criteria. Here's an example of how to use the `getAttachment()` function:
 
 ```javascript
-const r6Info = require('r6info.js');
+const r6Info = require('r6-info.js');
 
 async function main() {
   try {
