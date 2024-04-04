@@ -3,18 +3,12 @@
   A simple wrapper for the Rainbow Six Siege API that allows you to easily retrieve information about maps, operators, ranks, seasons, charms and service status.
   <div align="center">
   <p>
-    <a href="https://github.com/matteotorna/r6-info.js/releases/latest"><img
-      src="https://img.shields.io/github/v/release/matteotorna/r6info.js?label=version"
-      alt="Version"
-    /></a>
-    <a href="https://github.com/matteotorna/r6-info.js/releases/latest"><img
-      src="https://img.shields.io/github/release-date/matteotorna/r6info.js?label=latest%20release"
-      alt="Latest release"
-    /></a>
-    <a href="https://www.npmjs.com/package/r6info.js"><img
-      src="https://img.shields.io/npm/dt/r6-info.js.svg"
-      alt="NPM downloads"
-    /></a>
+    <a href="https://github.com/matteotorna/r6-info.js/releases/latest">
+  <img src="https://img.shields.io/github/v/release/matteotorna/r6-info.js?style=for-the-badge" alt="GitHub release (latest SemVer)" /></a>
+    <a href="https://github.com/matteotorna/r6-info.js/releases/latest">
+    <img src="https://img.shields.io/github/release-date/matteotorna/r6-info.js?label=latest%20release&style=for-the-badge" alt="Latest release" /></a>
+   <a href="https://www.npmjs.com/package/r6-info.js"><img src="https://img.shields.io/npm/v/r6-info.js.svg?logo=npm&style=for-the-badge" alt="npm version" /></a>
+    <a href="https://www.npmjs.com/package/r6info.js"><img src="https://img.shields.io/npm/dt/r6-info.js.svg?style=for-the-badge" alt="NPM downloads" /></a>
   </p>
 </div>
 
