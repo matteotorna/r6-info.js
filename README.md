@@ -1,6 +1,7 @@
-<div align="center">
-  <h1>R6-INFO.js</h1>
-  <h3>A simple wrapper for the Rainbow Six Siege API that allows you to easily retrieve information about maps, operators, ranks, seasons, charms and service status.</h3>
+
+## R6-INFO.js
+  A simple wrapper for the Rainbow Six Siege API that allows you to easily retrieve information about maps, operators, ranks, seasons, charms and service status.
+  <div align="center">
   <p>
     <a href="https://github.com/matteotorna/r6-info.js/releases/latest"><img
       src="https://img.shields.io/github/v/release/matteotorna/r6info.js?label=version"
