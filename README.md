@@ -8,7 +8,7 @@
     <a href="https://github.com/matteotorna/r6-info.js/releases/latest">
     <img src="https://img.shields.io/github/release-date/matteotorna/r6-info.js?label=latest%20release&style=for-the-badge" alt="Latest release" /></a>
    <a href="https://www.npmjs.com/package/r6-info.js"><img src="https://img.shields.io/npm/v/r6-info.js.svg?logo=npm&style=for-the-badge" alt="npm version" /></a>
-    <a href="https://www.npmjs.com/package/r6info.js"><img src="https://img.shields.io/npm/dt/r6-info.js.svg?style=for-the-badge" alt="NPM downloads" /></a>
+    <a href="https://www.npmjs.com/package/r6-info.js"><img src="https://img.shields.io/npm/dt/r6-info.js.svg?style=for-the-badge" alt="NPM downloads" /></a>
   </p>
 </div>
 
