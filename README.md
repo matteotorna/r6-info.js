@@ -23,7 +23,7 @@ npm i r6-info.js
 
 ## userId
 
-The R6-INFO.js package requires a user ID to be provided when calling its methods. The user ID is used to associate the generated access tokens with a specific user, allowing for personalized and secure access to the Rainbow Six Siege API.
+The R6-INFO.js package requires a user ID to be provided when calling its methods. The user ID is used to associate the generated access tokens with a specific user, allowing for personalized and secure access to the Rainbow Six Siege API. You can choose your own userid, is up to you.
 
 ## Getting an Access Token
 
