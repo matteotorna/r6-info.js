@@ -21,6 +21,10 @@ npm install r6info.js
 npm i r6-info.js
 ```
 
+## userId
+
+The R6-INFO.js package requires a user ID to be provided when calling its methods. The user ID is used to associate the generated access tokens with a specific user, allowing for personalized and secure access to the Rainbow Six Siege API.
+
 ## Getting an Access Token
 
 The `Token Manager` is a crucial module in R6-INFO.js that handles the authentication process required to access the Rainbow Six Siege API. It provides functions for generating, validating, and clearing access tokens.
@@ -33,8 +37,10 @@ Before making any requests to the API, you need to generate an access token. The
 const r6Info = require('r6-info.js');
 
 async function main() {
+  const userId = 'your-user-id';
+
   try {
-    await r6Info.tokenManager.generateToken();
+    await r6Info.tokenManager.generateToken(userId);
     console.log('Token generated successfully');
   } catch (error) {
     console.error('Error while generating token:', error.message);
@@ -54,11 +60,11 @@ If you need to retrieve the current access token, you can use the `getToken()` f
 const r6Info = require('r6-info.js');
 
 async function main() {
+  const userId = 'your-user-id';
+
   try {
-    await r6Info.tokenManager.generateToken();
-    const { token, callId } = r6Info.tokenManager.getToken();
+    const token = await r6Info.tokenManager.getToken(userId);
     console.log('Token:', token);
-    console.log('Call ID:', callId);
   } catch (error) {
     console.error('Error while getting token:', error.message);
   }
@@ -77,10 +83,13 @@ To ensure that the access token is still valid before making an API request, you
 const r6Info = require('r6-info.js');
 
 async function main() {
-  try {
-    await r6Info.tokenManager.generateToken();
+  const userId = 'your-user-id';
 
-    if (r6Info.tokenManager.isValidToken()) {
+  try {
+    const token = await r6Info.tokenManager.getToken(userId);
+    const isValid = await r6Info.tokenManager.isValidToken(token, userId);
+
+    if (isValid) {
       console.log('Token is valid');
     } else {
       console.log('Token is expired or invalid');
@@ -95,29 +104,6 @@ main();
 
 If the token is valid, the function will return `true`, and you can proceed with making API requests. If the token is expired or invalid, you should generate a new token using the `generateToken()` function before attempting to make any requests.
 
-### Clearing the Token
-
-In some cases, you may want to manually clear the stored access token. The `clearToken()` function allows you to do just that. Here's an example:
-
-```javascript
-const r6Info = require('r6-info.js');
-
-async function main() {
-  try {
-    await r6Info.tokenManager.generateToken();
-    console.log('Token generated successfully');
-
-    r6Info.tokenManager.clearToken();
-    console.log('Token cleared successfully');
-  } catch (error) {
-    console.error('Error while clearing token:', error.message);
-  }
-}
-
-main();
-```
-
-After calling the `clearToken()` function, the stored access token will be removed, and you will need to generate a new token before making any further API requests.
 
 ## Getting Rank Information
 
@@ -141,13 +127,15 @@ The `getRanks()` function supports retrieving rank information across different 
 const r6Info = require('r6-info.js');
 
 async function main() {
+  const userId = 'your-user-id';
+
   try {
-    await r6Info.tokenManager.generateToken();
+    await r6Info.tokenManager.generateToken(userId);
     
-    const ranksV1 = await r6Info.getRanks({ version: 'v1' });
+    const ranksV1 = await r6Info.getRanks(userId, { version: 'v1' });
     console.log('All ranks for version v1:', ranksV1);
 
-    const filteredRanksV1 = await r6Info.getRanks({ min_mmr: 2000, max_mmr: 2500, version: 'v1' });
+    const filteredRanksV1 = await r6Info.getRanks(userId, { min_mmr: 2000, max_mmr: 2500, version: 'v1' });
     console.log('Filtered ranks for version v1:', filteredRanksV1);
     
   } catch (error) {
@@ -165,13 +153,15 @@ In this example, we first generate an access token using the `generateToken()` f
 const r6Info = require('r6-info.js');
 
 async function main() {
+  const userId = 'your-user-id';
+
   try {
-    await r6Info.tokenManager.generateToken();
+    await r6Info.tokenManager.generateToken(userId);
     
-    const ranksV2 = await r6Info.getRanks({ version: 'v2' });
+    const ranksV2 = await r6Info.getRanks(userId, { version: 'v2' });
     console.log('All ranks for version v2:', ranksV2);
 
-    const filteredRanksV2 = await r6Info.getRanks({ min_mmr: 2600, max_mmr: 3100, version: 'v2' });
+    const filteredRanksV2 = await r6Info.getRanks(userId, { min_mmr: 2600, max_mmr: 3100, version: 'v2' });
     console.log('Filtered ranks for version v2:', filteredRanksV2);
     
   } catch (error) {
@@ -191,13 +181,15 @@ The examples for versions 3 to 6 follow the same pattern, with the only differen
 const r6Info = require('r6-info.js');
 
 async function main() {
+  const userId = 'your-user-id';
+
   try {
-    await r6Info.tokenManager.generateToken();
+    await r6Info.tokenManager.generateToken(userId);
     
-    const ranksV3 = await r6Info.getRanks({ version: 'v3' });
+    const ranksV3 = await r6Info.getRanks(userId, { version: 'v3' });
     console.log('All ranks for version v3:', ranksV3);
 
-    const filteredRanksV3 = await r6Info.getRanks({ min_mmr: 3200, max_mmr: 3700, version: 'v3' });
+    const filteredRanksV3 = await r6Info.getRanks(userId, { min_mmr: 3200, max_mmr: 3700, version: 'v3' });
     console.log('Filtered ranks for version v3:', filteredRanksV3);
     
   } catch (error) {
@@ -214,13 +206,15 @@ main();
 const r6Info = require('r6-info.js');
 
 async function main() {
+  const userId = 'your-user-id';
+
   try {
-    await r6Info.tokenManager.generateToken();
+    await r6Info.tokenManager.generateToken(userId);
     
-    const ranksV4 = await r6Info.getRanks({ version: 'v4' });
+    const ranksV4 = await r6Info.getRanks(userId, { version: 'v4' });
     console.log('All ranks for version v4:', ranksV4);
 
-    const filteredRanksV4 = await r6Info.getRanks({ min_mmr: 3800, max_mmr: 4300, version: 'v4' });
+    const filteredRanksV4 = await r6Info.getRanks(userId, { min_mmr: 3800, max_mmr: 4300, version: 'v4' });
     console.log('Filtered ranks for version v4:', filteredRanksV4);
     
   } catch (error) {
@@ -237,13 +231,15 @@ main();
 const r6Info = require('r6-info.js');
 
 async function main() {
+  const userId = 'your-user-id';
+
   try {
-    await r6Info.tokenManager.generateToken();
+    await r6Info.tokenManager.generateToken(userId);
     
-    const ranksV5 = await r6Info.getRanks({ version: 'v5' });
+    const ranksV5 = await r6Info.getRanks(userId, { version: 'v5' });
     console.log('All ranks for version v5:', ranksV5);
 
-    const filteredRanksV5 = await r6Info.getRanks({ min_mmr: 4400, max_mmr: 4900, version: 'v5' });
+    const filteredRanksV5 = await r6Info.getRanks(userId, { min_mmr: 4400, max_mmr: 4900, version: 'v5' });
     console.log('Filtered ranks for version v5:', filteredRanksV5);
     
   } catch (error) {
@@ -261,13 +257,15 @@ main();
 const r6Info = require('r6-info.js');
 
 async function main() {
+  const userId = 'your-user-id';
+
   try {
-    await r6Info.tokenManager.generateToken();
+    await r6Info.tokenManager.generateToken(userId);
     
-    const ranksV6 = await r6Info.getRanks({ version: 'v6' });
+    const ranksV6 = await r6Info.getRanks(userId, { version: 'v6' });
     console.log('All ranks for version v6:', ranksV6);
 
-    const filteredRanksV6 = await r6Info.getRanks({ min_mmr: 5000, max_mmr: 5500, version: 'v6' });
+    const filteredRanksV6 = await r6Info.getRanks(userId, { min_mmr: 5000, max_mmr: 5500, version: 'v6' });
     console.log('Filtered ranks for version v6:', filteredRanksV6);
     
   } catch (error) {
@@ -286,10 +284,12 @@ The `getServiceStatus()` function allows you to retrieve the current status of t
 const r6Info = require('r6-info.js');
 
 async function main() {
-  try {
-    await r6Info.tokenManager.generateToken();
+  const userId = 'your-user-id';
 
-    const serviceStatus = await r6Info.getServiceStatus();
+  try {
+    await r6Info.tokenManager.generateToken(userId);
+
+    const serviceStatus = await r6Info.getServiceStatus(userId);
     console.log('Service status:', serviceStatus);
     
   } catch (error) {
@@ -308,31 +308,33 @@ The `getMaps()` function allows you to retrieve information about the maps avail
 const r6Info = require('r6-info.js');
 
 async function main() {
+  const userId = 'your-user-id';
+
   try {
-    await r6Info.tokenManager.generateToken();
+    await r6Info.tokenManager.generateToken(userId);
 
     // Get all maps
-    const maps = await r6Info.getMaps();
+    const maps = await r6Info.getMaps(userId);
     console.log('All maps:', maps);
     
     // Filter maps by name
-    const filteredMapsByName = await r6Info.getMaps({ name: 'Bank' });
+    const filteredMapsByName = await r6Info.getMaps(userId, { name: 'Bank' });
     console.log('Maps filtered by name:', filteredMapsByName);
     
     // Filter maps by location
-    const filteredMapsByLocation = await r6Info.getMaps({ location: 'USA' });
+    const filteredMapsByLocation = await r6Info.getMaps(userId, { location: 'USA' });
     console.log('Maps filtered by location:', filteredMapsByLocation);
     
     // Filter maps by release date
-    const filteredMapsByReleaseDate = await r6Info.getMaps({ releaseDate: '2015-12-01' });
+    const filteredMapsByReleaseDate = await r6Info.getMaps(userId, { releaseDate: '2015-12-01' });
     console.log('Maps filtered by release date:', filteredMapsByReleaseDate);
     
     // Filter maps by playlists
-    const filteredMapsByPlaylists = await r6Info.getMaps({ playlists: 'ranked' });
+    const filteredMapsByPlaylists = await r6Info.getMaps(userId, { playlists: 'ranked' });
     console.log('Maps filtered by playlists:', filteredMapsByPlaylists);
     
     // Filter maps by rework status
-    const filteredMapsByRework = await r6Info.getMaps({ mapReworked: true });
+    const filteredMapsByRework = await r6Info.getMaps(userId, { mapReworked: true });
     console.log('Maps filtered by rework status:', filteredMapsByRework);
     
   } catch (error) {
@@ -361,63 +363,65 @@ The `getOperators()` function allows you to retrieve information about the opera
 const r6Info = require('r6-info.js');
 
 async function main() {
+  const userId = 'your-user-id';
+
   try {
-    await r6Info.tokenManager.generateToken();
+    await r6Info.tokenManager.generateToken(userId);
 
     // Get all operators
-    const operators = await r6Info.getOperators();
+    const operators = await r6Info.getOperators(userId);
     console.log('All operators:', operators);
     
     // Filter operators by name
-    const filteredOperatorsByName = await r6Info.getOperators({ name: 'Ash' });
+    const filteredOperatorsByName = await r6Info.getOperators(userId, { name: 'Ash' });
     console.log('Operators filtered by name:', filteredOperatorsByName);
     
     // Filter operators by safe name
-    const filteredOperatorsBySafeName = await r6Info.getOperators({ safename: 'recruit' });
+    const filteredOperatorsBySafeName = await r6Info.getOperators(userId, { safename: 'recruit' });
     console.log('Operators filtered by safe name:', filteredOperatorsBySafeName);
     
     // Filter operators by real name
-    const filteredOperatorsByRealName = await r6Info.getOperators({ realname: 'Eliza Cohen' });
+    const filteredOperatorsByRealName = await r6Info.getOperators(userId, { realname: 'Eliza Cohen' });
     console.log('Operators filtered by real name:', filteredOperatorsByRealName);
     
     // Filter operators by birthplace
-    const filteredOperatorsByBirthplace = await r6Info.getOperators({ birthplace: 'Jerusalem, Israel' });
+    const filteredOperatorsByBirthplace = await r6Info.getOperators(userId, { birthplace: 'Jerusalem, Israel' });
     console.log('Operators filtered by birthplace:', filteredOperatorsByBirthplace);
     
     // Filter operators by age
-    const filteredOperatorsByAge = await r6Info.getOperators({ age: 33 });
+    const filteredOperatorsByAge = await r6Info.getOperators(userId, { age: 33 });
     console.log('Operators filtered by age:', filteredOperatorsByAge);
     
     // Filter operators by date of birth
-    const filteredOperatorsByDateOfBirth = await r6Info.getOperators({ date_of_birth: '1984-12-24' });
+    const filteredOperatorsByDateOfBirth = await r6Info.getOperators(userId, { date_of_birth: '1984-12-24' });
     console.log('Operators filtered by date of birth:', filteredOperatorsByDateOfBirth);
     
     // Filter operators by season introduced
-    const filteredOperatorsBySeasonIntroduced = await r6Info.getOperators({ season_introduced: 'Y1S1' });
+    const filteredOperatorsBySeasonIntroduced = await r6Info.getOperators(userId, { season_introduced: 'Y1S1' });
     console.log('Operators filtered by season introduced:', filteredOperatorsBySeasonIntroduced);
     
     // Filter operators by health
-    const filteredOperatorsByHealth = await r6Info.getOperators({ health: 1 });
+    const filteredOperatorsByHealth = await r6Info.getOperators(userId, { health: 1 });
     console.log('Operators filtered by health:', filteredOperatorsByHealth);
     
     // Filter operators by speed
-    const filteredOperatorsBySpeed = await r6Info.getOperators({ speed: 3 });
+    const filteredOperatorsBySpeed = await r6Info.getOperators(userId, { speed: 3 });
     console.log('Operators filtered by speed:', filteredOperatorsBySpeed);
 
     // Filter operators by unit
-    const filteredOperatorsByUnit = await r6Info.getOperators({ unit: 'FBI SWAT' });
+    const filteredOperatorsByUnit = await r6Info.getOperators(userId, { unit: 'FBI SWAT' });
     console.log('Operators filtered by unit:', filteredOperatorsByUnit);
 
     // Filter operators by country code
-    const filteredOperatorsByCountryCode = await r6Info.getOperators({ country_code: 'US' });
+    const filteredOperatorsByCountryCode = await r6Info.getOperators(userId, { country_code: 'US' });
     console.log('Operators filtered by country code:', filteredOperatorsByCountryCode);
 
     // Filter operators by roles
-    const filteredOperatorsByRoles = await r6Info.getOperators({ roles: 'attacker' });
+    const filteredOperatorsByRoles = await r6Info.getOperators(userId, { roles: 'attacker' });
     console.log('Operators filtered by roles:', filteredOperatorsByRoles);
 
     // Filter operators by side
-    const filteredOperatorsBySide = await r6Info.getOperators({ side: 'attacker' });
+    const filteredOperatorsBySide = await r6Info.getOperators(userId, { side: 'attacker' });
     console.log('Operators filtered by side:', filteredOperatorsBySide);
     } catch (error) {
     console.error('Error while requesting operators:', error.message);
@@ -453,39 +457,41 @@ The `getSeasons()` function allows you to retrieve information about the seasons
 const r6Info = require('r6-info.js');
 
 async function main() {
+  const userId = 'your-user-id';
+
   try {
-    await r6Info.tokenManager.generateToken();
+    await r6Info.tokenManager.generateToken(userId);
 
     // Get all seasons
-    const seasons = await r6Info.getSeasons();
+    const seasons = await r6Info.getSeasons(userId);
     console.log('All seasons:', seasons);
 
     // Filter seasons by name
-    const filteredSeasonsByName = await r6Info.getSeasons({ name: 'Black Ice' });
+    const filteredSeasonsByName = await r6Info.getSeasons(userId, { name: 'Black Ice' });
     console.log('Seasons filtered by name:', filteredSeasonsByName);
 
     // Filter seasons by map
-    const filteredSeasonsByMap = await r6Info.getSeasons({ map: 'Yacht' });
+    const filteredSeasonsByMap = await r6Info.getSeasons(userId, { map: 'Yacht' });
     console.log('Seasons filtered by map:', filteredSeasonsByMap);
 
     // Filter seasons by operators
-    const filteredSeasonsByOperators = await r6Info.getSeasons({ operators: 'Buck, Frost' });
+    const filteredSeasonsByOperators = await r6Info.getSeasons(userId, { operators: 'Buck, Frost' });
     console.log('Seasons filtered by operators:', filteredSeasonsByOperators);
 
     // Filter seasons by weapons
-    const filteredSeasonsByWeapons = await r6Info.getSeasons({ weapons: 'C8-SFW, Super 90' });
+    const filteredSeasonsByWeapons = await r6Info.getSeasons(userId, { weapons: 'C8-SFW, Super 90' });
     console.log('Seasons filtered by weapons:', filteredSeasonsByWeapons);
 
     // Filter seasons by description
-    const filteredSeasonsByDescription = await r6Info.getSeasons({ description: 'Operation Black Ice brings a new map and two new operators to the game.' });
+    const filteredSeasonsByDescription = await r6Info.getSeasons(userId, { description: 'Operation Black Ice brings a new map and two new operators to the game.' });
     console.log('Seasons filtered by description:', filteredSeasonsByDescription);
 
     // Filter seasons by code
-    const filteredSeasonsByCode = await r6Info.getSeasons({ code: 'Y1S1' });
+    const filteredSeasonsByCode = await r6Info.getSeasons(userId, { code: 'Y1S1' });
     console.log('Seasons filtered by code:', filteredSeasonsByCode);
 
     // Filter seasons by start date
-    const filteredSeasonsByStartDate = await r6Info.getSeasons({ startDate: '2016-02-02' });
+    const filteredSeasonsByStartDate = await r6Info.getSeasons(userId, { startDate: '2016-02-02' });
     console.log('Seasons filtered by start date:', filteredSeasonsByStartDate);
     
   } catch (error) {
@@ -515,35 +521,37 @@ The `getAttachment()` function allows you to retrieve information about the atta
 const r6Info = require('r6-info.js');
 
 async function main() {
+  const userId = 'your-user-id';
+
   try {
-    await r6Info.tokenManager.generateToken();
+    await r6Info.tokenManager.generateToken(userId);
 
     // Get all attachments
-    const attachments = await r6Info.getAttachment();
+    const attachments = await r6Info.getAttachment(userId);
     console.log('All attachments:', attachments);
     
     // Filter attachments by name
-    const filteredAttachmentsByName = await r6Info.getAttachment({ name: 'Red Dot Sight' });
+    const filteredAttachmentsByName = await r6Info.getAttachment(userId, { name: 'Red Dot Sight' });
     console.log('Attachments filtered by name:', filteredAttachmentsByName);
     
     // Filter attachments by style
-    const filteredAttachmentsByStyle = await r6Info.getAttachment({ style: 'colour' });
+    const filteredAttachmentsByStyle = await r6Info.getAttachment(userId, { style: 'colour' });
     console.log('Attachments filtered by style:', filteredAttachmentsByStyle);
     
     // Filter attachments by rarity
-    const filteredAttachmentsByRarity = await r6Info.getAttachment({ rarity: 'common' });
+    const filteredAttachmentsByRarity = await r6Info.getAttachment(userId, { rarity: 'common' });
     console.log('Attachments filtered by rarity:', filteredAttachmentsByRarity);
     
     // Filter attachments by availability
-    const filteredAttachmentsByAvailability = await r6Info.getAttachment({ availability: 'removed' });
+    const filteredAttachmentsByAvailability = await r6Info.getAttachment(userId, { availability: 'removed' });
     console.log('Attachments filtered by availability:', filteredAttachmentsByAvailability);
     
     // Filter attachments by bundle
-    const filteredAttachmentsByBundle = await r6Info.getAttachment({ bundle: '"Crimson Heist Battlepass"' });
+    const filteredAttachmentsByBundle = await r6Info.getAttachment(userId, { bundle: '"Crimson Heist Battlepass"' });
     console.log('Attachments filtered by bundle:', filteredAttachmentsByBundle);
     
     // Filter attachments by season
-    const filteredAttachmentsBySeason = await r6Info.getAttachment({ season: '"North Star"' });
+    const filteredAttachmentsBySeason = await r6Info.getAttachment(userId, { season: '"North Star"' });
     console.log('Attachments filtered by season:', filteredAttachmentsBySeason);
     
   } catch (error) {

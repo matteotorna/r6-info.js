@@ -14,8 +14,7 @@ const r6Info = {
   tokenManager: {
     generateToken: tokenManager.generateToken,
     isValidToken: tokenManager.isValidToken,
-    clearToken: tokenManager.clearToken,
-    getToken: tokenManager.getToken,
+    getToken: tokenManager.getToken
   },
 };
 

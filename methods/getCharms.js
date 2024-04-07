@@ -1,25 +1,22 @@
 const axiosInstance = require('../axiosInstance/axiosInstance');
-const { getToken, isValidToken, generateToken } = require('./tokenManager');
+const { getToken, isValidToken } = require('./tokenManager');
 const buildUrlAndParams = require('./util'); 
 
-async function getCharms({ name, collection, rarity, availability, bundle, season } = {}) {
+async function getCharms(userId, { name, collection, rarity, availability, bundle, season } = {}) {
   try {
-    if (!isValidToken()) {
-      await generateToken();
-    }
 
-    const { token, callId } = getToken();
+    let token = await getToken(userId);
+    let isValid = await isValidToken(token, userId);
 
-    if (!token) {
-      throw new Error('Impossible get a valid token');
+    if (!token || !isValid) {
+      console.log('Token expired');
     }
 
     const url = buildUrlAndParams('/charms', { name, collection, rarity, availability, bundle, season });
 
     const response = await axiosInstance.get(url, {
       headers: {
-        'Authorization': `Bearer ${token}`,
-        'Call-ID': callId
+        'Authorization': `Bearer ${token}`
       }
     });
 

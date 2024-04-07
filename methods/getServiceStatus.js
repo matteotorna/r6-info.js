@@ -1,24 +1,20 @@
 const axiosInstance = require('../axiosInstance/axiosInstance');
-const { getToken, isValidToken, generateToken } = require('./tokenManager');
+const { getToken, isValidToken } = require('./tokenManager');
 
-async function getServiceStatus() {
+async function getServiceStatus(userId) {
   try {
    
-    if (!isValidToken()) {
-      await generateToken();
-    }
+    let token = await getToken(userId);
+    let isValid = await isValidToken(token, userId);
 
-    const { token, callId } = getToken();
-
-    if (!token) {
-      throw new Error('Impossible get a valid token');
+    if (!token || !isValid) {
+      console.log('Token expired');
     }
 
     let url = '/serviceStatus';
     const response = await axiosInstance.get(url, {
       headers: {
-        'Authorization': `Bearer ${token}`,
-        'Call-ID': callId
+        'Authorization': `Bearer ${token}`
       }
     });
 

@@ -1,26 +1,22 @@
 const axiosInstance = require('../axiosInstance/axiosInstance');
-const { getToken, isValidToken, generateToken } = require('./tokenManager');
+const { getToken, isValidToken } = require('./tokenManager');
 const buildUrlAndParams = require('./util'); 
 
-async function getAttachment({ name, style, rarity, availability, bundle, season } = {}) {
+async function getAttachment(userId, { name, style, rarity, availability, bundle, season } = {}) {
   try {
 
-    if (!isValidToken()) {
-      await generateToken();
-    }
+    let token = await getToken(userId);
+    let isValid = await isValidToken(token, userId);
 
-    const { token, callId } = getToken();
-
-    if (!token) {
-      throw new Error('Impossible get a valid token');
+    if (!token || !isValid) {
+      console.log('Token expired');
     }
 
     const url = buildUrlAndParams('/charms', { name, style, rarity, availability, bundle, season });
 
     const response = await axiosInstance.get(url, {
       headers: {
-        'Authorization': `Bearer ${token}`,
-        'Call-ID': callId
+        'Authorization': `Bearer ${token}`
       }
     });
 

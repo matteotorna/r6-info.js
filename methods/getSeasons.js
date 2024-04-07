@@ -1,26 +1,22 @@
 const axiosInstance = require('../axiosInstance/axiosInstance');
-const { getToken, isValidToken, generateToken } = require('./tokenManager');
+const { getToken, isValidToken } = require('./tokenManager');
 const buildUrlAndParams = require('./util');
 
-async function getSeasons({ name, map, operators, weapons, description, code, startDate } = {}) {
+async function getSeasons(userId, { name, map, operators, weapons, description, code, startDate } = {}) {
   try {
     
-    if (!isValidToken()) {
-      await generateToken();
-    }
+    let token = await getToken(userId);
+    let isValid = await isValidToken(token, userId);
 
-    const { token, callId } = getToken();
-
-    if (!token) {
-      throw new Error('Impossible get a valid token');
+    if (!token || !isValid) {
+      console.log('Token expired');
     }
 
     const url = buildUrlAndParams('/seasons', { name, map, operators, weapons, description, code, startDate });
 
     const response = await axiosInstance.get(url, {
       headers: {
-        'Authorization': `Bearer ${token}`,
-        'Call-ID': callId
+        'Authorization': `Bearer ${token}`
       }
     });
 
